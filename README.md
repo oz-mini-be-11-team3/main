@@ -1,2 +1,2 @@
 # main
-This is the main repsitory. Welcome.
+This is the main repository. Welcome.
