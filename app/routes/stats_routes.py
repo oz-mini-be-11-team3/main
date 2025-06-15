@@ -9,7 +9,8 @@ stats_routes_blp = Blueprint('stats_routes', __name__)
 @stats_routes_blp.route('/stats/answer_rate_by_choice', methods=['GET'])
 def user_answer_rate():
     try:
-        result = db.session.query(
+        result = db.session.query \
+        (
             Question.id.label('question_id'),
             Choices.id.label('choice_id'),
             func.count(Answer.id).label('answer_count'),
@@ -20,7 +21,8 @@ def user_answer_rate():
          .order_by(Question.id, Choices.id) \
          .all()
 
-        data = [
+        data = \
+        [
             {
                 "question_id": row.question_id,
                 "choice_id": row.choice_id,
@@ -39,7 +41,8 @@ def user_answer_rate():
 @stats_routes_blp.route('/stats/answer_count_by_question', methods=['GET'])
 def question_answer_distribution():
     try:
-        result = db.session.query(
+        result = db.session.query \
+        (
             Question.id.label('question_id'),
             Choices.id.label('choice_id'),
             func.count(Answer.id).label('answer_count'),
@@ -50,7 +53,8 @@ def question_answer_distribution():
          .order_by(Question.id, Choices.id) \
          .all()
 
-        data = [
+        data = \
+        [
             {
                 "question_id": row.question_id,
                 "choice_id": row.choice_id,
