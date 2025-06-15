@@ -1,32 +1,15 @@
-from flask import Flask, jsonify
-from flask_migrate import Migrate
-
-import app.models
-from app.routes import register_routes
-from config import db
-
-migrate = Migrate()
+from .answers import answers_blp
+from .choices import choices_blp
+from .questions import questions_blp
+from .stats_routes import stats_routes_blp
+from .users import user_blp
+from .images import images_blp
 
 
-def create_app():
-    application = Flask(__name__)
-
-    application.config.from_object("config.Config")
-    application.secret_key = "oz_form_secret"
-
-    db.init_app(application)
-
-    migrate.init_app(application, db)
-
-		# 400 에러 발생 시, JSON 형태로 응답 반환
-    @application.errorhandler(400)
-    def handle_bad_request(error):
-        response = jsonify({"message": error.description})
-        response.status_code = 400
-        return response
-
-		# app/route/__init__.py에 블루 브린트를 등록해주세요
-	  register_routes(application)
-
-
-    return application
+def register_routes(application):
+    application.register_blueprint(user_blp)
+    application.register_blueprint(questions_blp)
+    application.register_blueprint(images_blp)
+    application.register_blueprint(choices_blp)
+    application.register_blueprint(answers_blp)
+    application.register_blueprint(stats_routes_blp)
